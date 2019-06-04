@@ -19,34 +19,16 @@ knitr::opts_chunk$set(tidy = FALSE,
 ```
 
 ```{r read}
-dados = read_csv(here::here("data/amostra-alunos-comfpcc.csv"))
-
-dados = dados %>%
-    rename(
-        sono_semana = `Quantas horas por noite você dorme DURANTE A SEMANA em média?`,
-        sono_fds = `Quantas horas por noite você dorme durante NO FIM DE SEMANA em média?`,
-        disciplinas = `Quantas disciplinas você está cursando esse semestre?`,
-        cafe = `Quantas xícaras de café você tomou ontem?`,
-        segue_gh = `Quantas pessoas você segue no github?`,
-        seguido_gh = `Quantas pessoas seguem você no github?`,
-        quase_concluinte = `Você está dois períodos ou menos de concluir?`
-    )
-
-dados = dados %>% 
-    mutate(data = lubridate::mdy_hms(Timestamp),
-           turma = if_else(data < as.POSIXct("2019-05-24 12:00:00"), 
-                           "cdd", 
-                           "fpcc"))%>% 
-    filter(segue_gh < 800, 
-           disciplinas < 10,
-           seguido_gh < 900)
-
+dados = read.csv2(here::here("data/campeonato-brasileiro-full.csv"))
 
 glimpse(dados)
 ```
 
+1. Jogos aos domingos têm mais gols que jogos às quartas? 
+
 ```{r}
 dados %>% 
+    filter(dia == "Domingo")
     ggplot(aes(x = sono_semana)) + 
     geom_histogram(binwidth = 1, boundary = 0) + 
     facet_wrap(~ turma, 
