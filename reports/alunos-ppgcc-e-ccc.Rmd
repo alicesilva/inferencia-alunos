@@ -48,6 +48,7 @@ dados_filtrados %>%
     summarise(mean(gols))
 ```
 
+A média dos gols do domingo e da quarta feira são bastante próximas.
 
 ```{r}
 theta_diferenca = function(d, i){
@@ -74,7 +75,9 @@ dados_filtrados %>%
          conf.int = TRUE)
 ```
 
-- intervalo de confiça [-0.44,0.4] mostra que existe pouqissima diferença ou nenhuma entre os gols da quarta e do domingo confrimando o valor baixo de theta
+### Conclusão: Possivelmente não existe uma diferença de gols entre os jogos da quarta e domingo
+
+A partir dos resultados obtidos, com 95% de confiança,obtemos um IC de aproximadamente [-0.44,0.4], isso nos que mostra que existe pouquissima diferença ou nenhuma entre os gols da quarta e do domingo, confrimando o valor baixo de theta. Com teste de hipótese nosso valor de p deu um valor muito alto, acima de 95%, o que nos leva a não descartar a hipótese nula, na qual diz que não existe diferença entre os gols da quarta e do domingo. Os dois testes concordam entre si, entretanto para o teste de hipóteses, não temos muita informação além da possibilidade de reijeição ou não da hipótese nula. 
 
 ## Com teste de hipótese
 
@@ -109,8 +112,6 @@ tibble(diferenca = diffs1) %>%
 ```{r}
 mean(abs(diffs1) >= abs(theta_diferenca(dados_filtrados, 1:NROW(dados_filtrados))))
 ```
-- 96% de parecer com o modelo nulo, não tem diferença entre a quantidade de gols no domingo e na quarta
-
 
 2. Jogos onde há um vitorioso têm mais ou menos gols que empates? 
 
@@ -163,8 +164,6 @@ dados_alterados %>%
          conf.int = TRUE)
 ```
 
-- conclusão
-
 ## Com teste de hipótese
 
 ```{r}
@@ -198,3 +197,7 @@ tibble(diferenca = diffs1) %>%
 ```{r}
 mean(abs(diffs1) >= abs(theta_diferenca_empate(dados_alterados, 1:NROW(dados_alterados))))
 ```
+
+### Conclusão: Provavelmente o numero de gols em jogos onde existe um vitorioso acontecem mais gols
+
+A partir dos resultados obtidos, com 95% de confiança,obtemos um IC de aproximadamente [-0.87,-0.20], isso nos que mostra que o número de gols dos jogos em que existe um vitorioso é maior do que a quantidade de gols dos jogos onde houve empate, confirmando o valor baixo de theta. Com teste de hipótese nosso valor de p deu um valor muito abaixo de 5%, o que nos leva a descartar a hipótese nula, em que diz que o numero de gols em jogos onde há um vitorioso é o mesmo número de gols. Os dois testes concordam entre si, entretanto para o teste de hipóteses, não temos muita informação além da possibilidade de reijeição ou não da hipótese nula. 
